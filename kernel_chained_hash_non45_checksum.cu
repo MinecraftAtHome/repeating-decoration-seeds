@@ -298,7 +298,7 @@ int main(int argc, char **argv) {
     uint64_t end_seed   = 211414360895ULL / HASH_BATCH_SIZE;
     uint64_t device_id  = 0;
     uint32_t *checksum;
-    FILE* seed_output = fopen("seeds.txt", "wa");
+    FILE* seed_output = fopen("seeds.txt", "a");
     int ret =  cudaMallocManaged(&checksum, sizeof(uint32_t));
     *checksum = 0;
     for (int i = 1; i < argc; ++i) {
