@@ -3,7 +3,7 @@
 on: [push]
 
 jobs:
-  windows_cuda:
+  windows_x86_cuda:
     name: cuda/release/windows
     runs-on: [windows-latest]
     steps:
@@ -43,11 +43,11 @@ jobs:
       run: |
         nvcc -g --resource-usage -lineinfo -Xptxas -lineinfo -v -O3 -arch=all -m=64 kernel_chained_hash_non45_checksum.cu -o repeating-cuda-windows-x86.exe -diag-suppress 177 -ID:\a\repeating-decoration-seeds\repeating-decoration-seeds\boinc\ -ID:\a\repeating-decoration-seeds\repeating-decoration-seeds\boinc\win\ -LD:\a\repeating-decoration-seeds\repeating-decoration-seeds\boinc\lib\win\ -lboinc_api -lboinc -lcuda -luser32 -DBOINC -D_WIN32 -allow-unsupported-compiler
         dir
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       with:
-       name: repeating-cuda-win_x86
+       name: ${{ github.event.repository.name }}.${{ github.ref_name }}.${{ github.run_id }}.windows_x86
        path: .\repeating-cuda-windows-x86.exe
-  linux_cuda:
+  linux_x86_cuda:
     name: cuda/release/linux
     runs-on: [ubuntu-latest]
     container: nvidia/cuda:12.6.3-devel-ubuntu20.04
@@ -59,7 +59,7 @@ jobs:
         kernel_chained_hash_non45_checksum.cu -m64 -o repeating-cuda-linux-x86 \
         -DBOINC -Iboinc/ -Lboinc/lib/lin -lcuda -lboinc_api -lboinc -Xptxas -v
         ls -la
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       with:
-       name: repeating-cuda-lin-x86
+       name: ${{ github.event.repository.name }}.${{ github.ref_name }}.${{ github.run_id }}.linux_x86
        path: ./repeating-cuda-linux-x86
